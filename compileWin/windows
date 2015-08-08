@@ -1,0 +1,3 @@
+#!/bin/bash
+i686-w64-mingw32-gcc ../c_files/$1.c -o $1.exe
+
