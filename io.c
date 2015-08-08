@@ -11,7 +11,7 @@ void ausgabe(void);
 void menu1(void);
 void menu2(void);
 void graufilter(void);
-void farbenAendern(void);
+void farbeninverieren(void);
 
 void leseDatei(void);
 void matrixFuellen(void);
@@ -141,8 +141,8 @@ void menu2(void)
     {
 		//printf("0 : Dateiname ändern\n");
         printf("1 : Graufilter\n");
-        printf("2 : Ändere Farben\n");
-        printf("3 : Bild nur Speichern\n");
+        printf("2 : Farben invertieren\n");
+        printf("3 : Bild Speichern\n");
         printf("4 : Programm beenden\n");		
         printf("Ihre Wahl: ");
         scanf("%c", &wahl);
@@ -161,16 +161,26 @@ void menu2(void)
             break;
         case '1':			
             printf("Graufilter wird auf Datei Datei: %s angewendet\n", dateiname);
+            if(strcmp(typVonPpm,"P2") == 0) {
+				printf("Bild ist bereits ein Graubild\n");
+			} else {
 	            graufilter();
-                speichernGrau();
+                
+			}
             break;
         case '2':
-            printf("Farben werden geandert, auf die Datei Datei: %s angewendet\n", dateiname);
-            farbenAendern();          
+            printf("Farben werden invertiert, auf die Datei Datei: %s angewendet\n", dateiname);
+            farbeninverieren();          
             break;
         case '3': 
 			printf("Bild wird gespeichert");
+			
+			if(strcmp(typVonPpm,"P3") == 0) {
 			speichernFarbe();
+			}
+			else {
+			speichernGrau();
+			}
             break;
         case '4':
             exit(0);
@@ -356,71 +366,71 @@ void matrixFuellen() {
 
     for (i = 0; i < zeile; i++) {
         for (j = 0; j < spalte; j++) {
-            R[i][j] = atoi(temp());
-            G[i][j] = atoi(temp());
-            B[i][j] = atoi(temp());
+			if(strcmp(typVonPpm,"P3") == 0) {
+				R[i][j] = atoi(temp());
+				G[i][j] = atoi(temp());
+				B[i][j] = atoi(temp());
+			} else {
+					Grau[i][j] = atoi(temp());
+				}
         }
     }
 }
 
 void graufilter(){
+	
+	
+		int i, j, spalte, zeile;
+		spalte = atoi(m_Breite);
+		zeile = atoi(m_Hoehe);
+		printf("Umwandeln der Matrix in Grauwerte\n");
+		for (i = 0; i < zeile; i++) {
+			for (j = 0; j < spalte; j++) {
+				int grauwert = 0;
+					grauwert = (int) (0.299 * R[i][j] + 0.587 *G[i][j] + 0.114*B[i][j]);
+			
+				if(newHoehe < grauwert) {
+					newHoehe = grauwert;
+				}
+				Grau[i][j] = grauwert;
 
-    int i, j, spalte, zeile;
-    spalte = atoi(m_Breite);
-    zeile = atoi(m_Hoehe);
-    printf("Umwandeln der Matrix in Grauwerte\n");
-    for (i = 0; i < zeile; i++) {
-        for (j = 0; j < spalte; j++) {
-            int grauwert = 0;
-				grauwert = (int) (0.299 * R[i][j] + 0.587 *G[i][j] + 0.114*B[i][j]);
-		
-            if(newHoehe < grauwert) {
-                newHoehe = grauwert;
-            }
-            Grau[i][j] = grauwert;
-
-        }
-    }
-
+			}
+		}
+		free(typVonPpm);
+		typVonPpm = malloc(2*sizeof(char));
+		strncat(typVonPpm, "P2",sizeof(char));
 
 }
 
-void farbenAendern(){
+void farbeninverieren(){
 	
-	    FILE *fp;
-	char name2[100] = {"AndereFarben.pnm"};
-	char name[100];
-	strcpy(name, neuerDateiName);
-	strcat(name, name2);
-    fp = fopen(name, "w");
-
-    if(fp == NULL) {
-        printf("Datei konnte nicht geoeffnet werden.\n");
-    }else {
-
-        int i, j, spalte, zeile;
+	
+        int i, j, spalte, zeile, hell;
         spalte = atoi(m_Breite);
         zeile = atoi(m_Hoehe);
-        
-        printf("Matrix Speichern\n");
-       
-		fprintf(fp, "P3");
-        fprintf(fp, "\n");
-        fprintf(fp,"%s", m_Breite);
-        fprintf(fp," ");
-        fprintf(fp,"%s", m_Hoehe);
-        fprintf(fp,"\n");
-        fprintf(fp,"%s", m_maxHelligkeit);
-        fprintf(fp,"\n");
+        hell = atoi(m_maxHelligkeit);
 
         for (i = 0; i < zeile; i++) {
             for (j = 0; j < spalte; j++) {
-				fprintf(fp,"%4i %4i %4i ", B[i][j], R[i][j],B[i][j]);
+				if(strcmp(typVonPpm,"P3") == 0) {
+					int blau, rot, gruen;
+					rot = R[i][j]; 
+					gruen = G[i][j];
+					blau = B[i][j];
+					
+					R[i][j] = hell - rot;
+					G[i][j] = hell - gruen;
+					B[i][j] = hell - blau;
+
+			} 
+			else {					
+					int g = Grau[i][j];
+					Grau[i][j] =  hell - g;					
+				}
+				
             }
-            fprintf(fp,"\n");
+           
         }
-        fclose(fp);
-    }
 }
 
 //Eine Ausgabe um die Matrix zu sehen (für Test zwäcke)
@@ -450,7 +460,7 @@ void speichernFarbe(){
     FILE *fp;
 
 
-    char name2[100] = {"Normal.pnm"};
+    char name2[100] = {"Farbe.pnm"};
 	char name[100];
 	strcpy(name, neuerDateiName);
 	strcat(name, name2);
