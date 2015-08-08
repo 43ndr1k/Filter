@@ -941,14 +941,38 @@ grauwertBerechnen:
 	movl	.LC30(%rip), %eax
 	movl	%eax, -8(%rbp)
 #APP
-# 398 "../ioASM.c" 1
-	fld -36(%rbp);fld -32(%rbp);fmulp;fstp -8(%rbp);fld -8(%rbp);fld -12(%rbp);faddp;fstp -12(%rbp);
+# 398 "../c_files/ioASM.c" 1
+	fld -36(%rbp)
+fld -32(%rbp)
+fmulp
+fstp -8(%rbp)
+fld -8(%rbp)
+fld -12(%rbp)
+faddp
+fstp -12(%rbp)
+
 # 0 "" 2
-# 412 "../ioASM.c" 1
-	fld -28(%rbp);fld -24(%rbp);fmulp;fstp -8(%rbp);fld -8(%rbp);fld -12(%rbp);faddp;fstp -12(%rbp);
+# 412 "../c_files/ioASM.c" 1
+	fld -28(%rbp)
+fld -24(%rbp)
+fmulp
+fstp -8(%rbp)
+fld -8(%rbp)
+fld -12(%rbp)
+faddp;
+fstp -12(%rbp)
+
 # 0 "" 2
-# 426 "../ioASM.c" 1
-	fld -20(%rbp);fld -16(%rbp);fmulp;fstp -8(%rbp);fld -8(%rbp);fld -12(%rbp);faddp;fstp -12(%rbp);
+# 426 "../c_files/ioASM.c" 1
+	fld -20(%rbp);
+fld -16(%rbp)
+fmulp
+fstp -8(%rbp)
+fld -8(%rbp)
+fld -12(%rbp)
+faddp
+fstp -12(%rbp)
+
 # 0 "" 2
 #NO_APP
 	movss	-12(%rbp), %xmm0
@@ -1096,8 +1120,10 @@ asmfarbeinvertieren:
 	movl	%eax, -4(%rbp)
 	movl	-4(%rbp), %eax
 #APP
-# 478 "../ioASM.c" 1
-	sub -8(%rbp), %eax;movl %eax,-8(%rbp);
+# 478 "../c_files/ioASM.c" 1
+	sub -8(%rbp), %eax
+movl %eax,-8(%rbp)
+
 # 0 "" 2
 #NO_APP
 	movl	%eax, -4(%rbp)

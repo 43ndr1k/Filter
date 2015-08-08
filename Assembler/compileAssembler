@@ -1,2 +1,2 @@
 #!/bin/bash 
-gcc -S ../ioASM.c
+gcc -S ../c_files/$1.c

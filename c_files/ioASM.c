@@ -396,42 +396,42 @@ int grauwertBerechnen(int r, int g, int b) {
 	float zwischensumme = 0;
 	
         asm(	
-				"fld %2;" // Ersten Wert Laden (rot)
-				"fld %3;" // Zweiten Wert Laden (rotwert)
-				"fmulp;"  // multiplikation von x und f
-				"fstp %0;" //ergebnis holen in (fa) laden
-				"fld %0;"
-				"fld %1;"
-				"faddp;"
-				"fstp %1;"				
+				"fld %2\n" // Ersten Wert Laden (rot)
+				"fld %3\n" // Zweiten Wert Laden (rotwert)
+				"fmulp\n"  // multiplikation von x und f
+				"fstp %0\n" //ergebnis holen in (fa) laden
+				"fld %0\n"
+				"fld %1\n"
+				"faddp\n"
+				"fstp %1\n"				
 				:"=m"(zwischensumme), "=m" (sum) // schreiben  
 				:"m"(rot), "m" (rotwert) //lesen
 
         );
         
                 asm(	
-				"fld %2;" // Ersten Wert Laden (x)
-				"fld %3;" // Zweiten Wert Laden (f)
-				"fmulp;"  // multiplikation von x und f
-				"fstp %0;" //ergebnis holen in (fa) laden
-				"fld %0;"
-				"fld %1;"
-				"faddp;"
-				"fstp %1;"				
+				"fld %2\n" // Ersten Wert Laden (x)
+				"fld %3\n" // Zweiten Wert Laden (f)
+				"fmulp\n"  // multiplikation von x und f
+				"fstp %0\n" //ergebnis holen in (fa) laden
+				"fld %0\n"
+				"fld %1\n"
+				"faddp;\n"
+				"fstp %1\n"				
 				:"=m"(zwischensumme), "=m" (sum) // schreiben  
 				:"m"(gruen), "m" (gruenwert) //lesen
 
         );
         
         asm(	
-				"fld %2;" // Ersten Wert Laden (x)
-				"fld %3;" // Zweiten Wert Laden (f)
-				"fmulp;"  // multiplikation von x und f
-				"fstp %0;" //ergebnis holen in (fa) laden
-				"fld %0;" //Ergbnis laden
-				"fld %1;" // Summe laden
-				"faddp;" //Addieren
-				"fstp %1;" //Addition in sum speichern				
+				"fld %2;\n" // Ersten Wert Laden (x)
+				"fld %3\n" // Zweiten Wert Laden (f)
+				"fmulp\n"  // multiplikation von x und f
+				"fstp %0\n" //ergebnis holen in (fa) laden
+				"fld %0\n" //Ergbnis laden
+				"fld %1\n" // Summe laden
+				"faddp\n" //Addieren
+				"fstp %1\n" //Addition in sum speichern				
 				:"=m"(zwischensumme), "=m" (sum) // schreiben  
 				:"m"(blau), "m" (blauwert) //lesen
 
@@ -479,8 +479,8 @@ int asmfarbeinvertieren(int w) {
       //"add %1, %0\n\t" /* Addiert den Wert von Operand %1 zum Wert von Operand %0. */
       //"inc %0"         /* Erhöht den Wert von Operand %0 um 1. */
 	
-		"sub %1, %0;"
-		"movl %0,%1;"
+		"sub %1, %0\n"
+		"movl %0,%1\n"
 	
 
       /* Definition der Nebenbedingungen:
