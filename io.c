@@ -312,21 +312,25 @@ char *leseZeichen() {
 void initialisiereMatrix() {
     //variablen für die Höhe, Breite und Helligkeit der Matrix
     int b,h;
-
-    //Prüft ob das richtige Dateiformat vorliegt.
-    if(strcmp(typVonPpm, "P2") == 0 || strcmp(typVonPpm, "P3") == 0 ){
         //Umwandlung der char Werte in int Werte
         b = atoi(m_Breite);
         h = atoi(m_Hoehe);
         
+    //Prüft ob das richtige Dateiformat vorliegt.
+    if(strcmp(typVonPpm, "P2") == 0){
 
-        //Speicheranfordern für die Matrizen
-        R = matrixspeicher(R,h,b);
-        G = matrixspeicher(G,h,b);
-        B = matrixspeicher(B,h,b);
         Grau = matrixspeicher(Grau,h,b);
+	
+   } else if (strcmp(typVonPpm, "P3") == 0) {
+			 //Speicheranfordern für die Matrizen
+			 
+			R = matrixspeicher(R,h,b);
+			G = matrixspeicher(G,h,b);
+			B = matrixspeicher(B,h,b);
+			Grau = matrixspeicher(Grau,h,b);
+		}
 
-    }else {
+    else {
         printf("Das Dateiformat der Datei %s ist nicht korrekt!",dateiname);
         menu1();
     }
