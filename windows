@@ -1,2 +1,3 @@
 #!/bin/bash
-i686-w64-mingw32-gcc io.c -o io.exe
+i686-w64-mingw32-gcc $1.c -o compileWin/$1.exe
+
