@@ -3,8 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-
-
+//Methoden
 void speichernFarbe(void);
 void speichernGrau(void);
 void ausgabe(void);
@@ -23,6 +22,7 @@ void initialisiereMatrix(void);
 char *temp(void);
 void leseKommentar(void);
 
+//Variablen zum Datei öffnen
 char * dateiname;
 FILE* datei;
 
@@ -49,14 +49,15 @@ FILE* datei;
     //Hoehe des Grauwertes
     int newHoehe = -1;
     
+    //Änderung des Datei Namen
     char *neuerDateiName;
     
 int main(){
 
+  //Lese Dateinamen ein
     dateiname = eingabeDateiname();
 
-
-
+    //Erstes Menu
     do {
         datei = fopen(dateiname,"r");
 
@@ -68,7 +69,7 @@ int main(){
 
     }while (datei == NULL);
 
-
+    //Datei einlesen
     printf("Die folgende Datei wird eingelesen: %s\n", dateiname);
     leseDatei();
 
@@ -91,6 +92,7 @@ char *eingabeDateiname(){
     if(input[strlen(input)-1] == '\n')
         input[strlen(input)-1] = '\0';
 	
+    //Dateinamen die Dateiändung abschneiden
 	strcpy(neuerDateiName, input);
 	neuerDateiName[strlen(neuerDateiName)-4] = '\0';
 		
@@ -132,6 +134,7 @@ void menu1(void)
 
 }
 
+//Auswahl der Filter
 void menu2(void)
 {
 
@@ -192,6 +195,7 @@ void menu2(void)
 
 }
 
+// Speichert das aktuelle Wort zwischen und prüft ob das Wort Null ist
 char *temp() {
     char* temp = leseZeichen();
     if(temp != NULL) {
@@ -204,6 +208,7 @@ char *temp() {
 	return NULL;
 }
 
+//Einlesen der Datei
 void leseDatei(){
 
     // Datei aus der die Daten gelesen werden sollen
@@ -226,8 +231,8 @@ void leseDatei(){
 	
 	while (!(count > 3)){
 
-			// Die gelesenen Werte sollen gleich
-			// umgewandelt werden.
+	// Die gelesenen Werte sollen gleich
+	// umgewandelt werden.
 
             char* temp = leseZeichen();
             if(temp != NULL) {
@@ -257,7 +262,9 @@ void leseDatei(){
 		
 	}
 
+//Speicher anfordern für die Matrix
     initialisiereMatrix();
+    
     matrixFuellen();
 
     fclose(datei);
@@ -274,9 +281,10 @@ char *leseZeichen() {
     char *str = malloc(strlen(puffer) + 1);
     size_t len = 0;
 
-    //Werte auf 0 setzten
+    //Wert auf 0 setzten
     memset(str, 0, (sizeof(str)));
 
+    //Wort gueltig?
     int gueltig = 0;
     
 
@@ -309,9 +317,11 @@ char *leseZeichen() {
     return NULL;
 }
 
+//Speicher anfordern
 void initialisiereMatrix() {
-    //variablen für die Höhe, Breite und Helligkeit der Matrix
+    //variablen für die Höhe, Breite der Matrix
     int b,h;
+    
         //Umwandlung der char Werte in int Werte
         b = atoi(m_Breite);
         h = atoi(m_Hoehe);
@@ -362,6 +372,7 @@ int **matrixspeicher(int **matrix, int zeile, int spalte){
 	
 }
 
+//Matrix mit den eingelesenen Werten befuellen
 void matrixFuellen() {
 
     int i, j, spalte, zeile;
@@ -381,6 +392,7 @@ void matrixFuellen() {
     }
 }
 
+//Graufilter
 void graufilter(){
 	
 	
@@ -402,10 +414,12 @@ void graufilter(){
 		}
 		free(typVonPpm);
 		typVonPpm = malloc(2*sizeof(char));
+		//Dateityp aendern
 		strncat(typVonPpm, "P2",sizeof(char));
 
 }
 
+//Farben des Bildes Invertieren
 void farbeninverieren(){
 	
 	
@@ -459,15 +473,16 @@ void ausgabe(){
 }
 
 
+//Speichern des Bildes, wenn es RGB ist
 void speichernFarbe(){
 
     FILE *fp;
 
 
     char name2[100] = {"Farbe.pnm"};
-	char name[100];
-	strcpy(name, neuerDateiName);
-	strcat(name, name2);
+    char name[100];
+    strcpy(name, neuerDateiName);
+    strcat(name, name2);
 	
     fp = fopen(name, "w");
     if(fp == NULL) {
@@ -480,7 +495,7 @@ void speichernFarbe(){
         
         printf("Matrix Speichern\n");
        
-		fprintf(fp, "P3");
+	fprintf(fp, "P3");
         fprintf(fp, "\n");
         fprintf(fp,"%s", m_Breite);
         fprintf(fp," ");
@@ -500,6 +515,7 @@ void speichernFarbe(){
 
 }
 
+//Bild speichern, wenn es ein Ggraubild ist
 void speichernGrau() {
 
     FILE *fp;
@@ -542,6 +558,8 @@ void speichernGrau() {
 
 
 }
+
+//Speicher der Matrix freigeben
 void speicherfreigabe(){
 	
 
@@ -556,10 +574,10 @@ void speicherfreigabe(){
    /* Spalten der i-ten Zeile freigeben */
    for(i = 0; i < zeile; i++) {
 
-			free(R[i]);
-		   free(G[i]);
-		   free(B[i]);
-		   free(Grau[i]);
+	free(R[i]);
+	free(G[i]);
+	free(B[i]);
+	free(Grau[i]);
    }
    /* Jetzt können die leeren Zeilen freigegeben werden. */
    free(R);
