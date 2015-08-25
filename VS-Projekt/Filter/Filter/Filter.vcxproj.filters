@@ -61,10 +61,8 @@
     <CustomBuild Include="filter.qrc">
       <Filter>Resource Dateien</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_filter.h">
+    <CustomBuild Include="GeneratedFiles\ui_filter.h">
       <Filter>Generierte Dateien</Filter>
-    </ClInclude>
+    </CustomBuild>
   </ItemGroup>
 </Project>
