@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GUIClass</class>
+ <widget class="QMainWindow" name="GUIClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GUI</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QLabel" name="picture">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionPicLoad"/>
+    <addaction name="actionPicSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionClose"/>
+   </widget>
+   <widget class="QMenu" name="menuBearbeiten">
+    <property name="title">
+     <string>Bearbeiten</string>
+    </property>
+    <addaction name="actionBack"/>
+   </widget>
+   <widget class="QMenu" name="menuFilter">
+    <property name="title">
+     <string>Filter</string>
+    </property>
+    <widget class="QMenu" name="menuMittelwertfilter">
+     <property name="title">
+      <string>Mittelwertfilter</string>
+     </property>
+     <addaction name="actionSchwarz_Wei"/>
+     <addaction name="actionRot_Gr_n_Blau"/>
+    </widget>
+    <addaction name="actionInvertieren"/>
+    <addaction name="menuMittelwertfilter"/>
+   </widget>
+   <widget class="QMenu" name="menuEinstellungen">
+    <property name="title">
+     <string>Einstellungen</string>
+    </property>
+    <widget class="QMenu" name="menuMittelwertfilter_2">
+     <property name="title">
+      <string>Mittelwertfilter</string>
+     </property>
+     <addaction name="actionG_e"/>
+     <addaction name="actionAbweichung"/>
+    </widget>
+    <addaction name="menuMittelwertfilter_2"/>
+   </widget>
+   <addaction name="menuDatei"/>
+   <addaction name="menuBearbeiten"/>
+   <addaction name="menuFilter"/>
+   <addaction name="menuEinstellungen"/>
+  </widget>
+  <action name="actionPicLoad">
+   <property name="text">
+    <string>Bild laden</string>
+   </property>
+  </action>
+  <action name="actionPicSave">
+   <property name="text">
+    <string>Bild speichern</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Beenden</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="text">
+    <string notr="true">Rückgängig</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">Rückgängig</string>
+   </property>
+  </action>
+  <action name="actionInvertieren">
+   <property name="text">
+    <string>Invertieren</string>
+   </property>
+  </action>
+  <action name="actionGrauwerte">
+   <property name="text">
+    <string>Grauwerte</string>
+   </property>
+  </action>
+  <action name="actionBunt">
+   <property name="text">
+    <string>Bunt</string>
+   </property>
+  </action>
+  <action name="actionG_e">
+   <property name="text">
+    <string>GÃ¶ÃŸe</string>
+   </property>
+  </action>
+  <action name="actionAbweichung">
+   <property name="text">
+    <string>Abweichung</string>
+   </property>
+  </action>
+  <action name="actionSchwarz_Wei">
+   <property name="text">
+    <string>Schwarz/WeiÃŸ</string>
+   </property>
+  </action>
+  <action name="actionRot_Gr_n_Blau">
+   <property name="text">
+    <string>Rot/GrÃ¼n/Blau</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="gui.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPicLoad</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>loadPic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>loadPic()</slot>
+ </slots>
+</ui>

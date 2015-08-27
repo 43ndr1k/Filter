@@ -24,12 +24,12 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generierte Dateien\Debug">
-      <UniqueIdentifier>{f575cf3e-1227-4fa7-9a02-6e52c79ff700}</UniqueIdentifier>
+      <UniqueIdentifier>{99a68148-a13d-4af1-b3f4-4063439afa57}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generierte Dateien\Release">
-      <UniqueIdentifier>{42620efd-0028-4973-bb18-5e29c1c427d5}</UniqueIdentifier>
+      <UniqueIdentifier>{d35541be-ffcf-4761-8633-3486d68705d5}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -38,31 +38,57 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="filter.cpp">
+    <ClCompile Include="gui.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_filter.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_gui.cpp">
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_filter.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_gui.cpp">
       <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_filter.cpp">
+    <ClCompile Include="GeneratedFiles\qrc_gui.cpp">
       <Filter>Generierte Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="data.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="picture.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="filterASM.cpp">
+      <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="filter.h">
+    <CustomBuild Include="gui.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="filter.ui">
+    <CustomBuild Include="gui.ui">
       <Filter>Form Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="filter.qrc">
+    <CustomBuild Include="gui.qrc">
       <Filter>Resource Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedFiles\ui_filter.h">
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_gui.h">
       <Filter>Generierte Dateien</Filter>
-    </CustomBuild>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="data.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="picture.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterASM.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
