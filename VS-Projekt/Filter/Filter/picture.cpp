@@ -58,7 +58,7 @@ bool Picture::readPic(QString path){
 
 	int count = 0;
 	while (!(count > 3)){
-		char* temp = readSymbol(datei);
+		char* temp = this->readSymbol(datei);
 
 		if (temp != NULL) {
 
@@ -105,14 +105,14 @@ bool Picture::readPic(QString path){
 
 	for (i = 0; i < getHeight(); i++) {
 		for (j = 0; j < getWidth(); j++) {
-			if (!(isOnlyGray)) {
-				m_colorData[0][i][j] = atoi(temp(datei));
-				m_colorData[1][i][j] = atoi(temp(datei));
-				m_colorData[2][i][j] = atoi(temp(datei));
+			if (!(isOnlyGray())) {
+				m_colorData[0][i][j] = atoi(this->temp(datei));
+				m_colorData[1][i][j] = atoi(this->temp(datei));
+				m_colorData[2][i][j] = atoi(this->temp(datei));
 				m_grayData[i][j] = (int)(0.299 * m_colorData[0][i][j] + 0.587 *m_colorData[1][i][j] + 0.114*m_colorData[2][i][j]);
 			}
 			else {
-				m_grayData[i][j] = atoi(temp(datei));
+				m_grayData[i][j] = atoi(this->temp(datei));
 			}
 		}
 	}
@@ -121,7 +121,7 @@ bool Picture::readPic(QString path){
 }
 
 //Liest und Speichert ein Symbol bis zum Leerzeichen
-char* readSymbol(FILE* datei){
+char* Picture::readSymbol(FILE* datei){
 	// Temporärer String, der den eingelesenen
 	// String speichert und später an die richtige
 	// Variable kopiert.
@@ -167,7 +167,7 @@ char* readSymbol(FILE* datei){
 }
 
 // Speichert das aktuelle Wort zwischen und prüft ob das Wort Null ist
-char *temp(FILE* datei) {
+char* Picture::temp(FILE* datei) {
 	char* temp = readSymbol(datei);
 	if (temp != NULL) {
 		return temp;
@@ -241,7 +241,7 @@ int Picture::getMaxBright(){
 }
 
 bool Picture::isOnlyGray(){
-	return this->isOnlyGray;
+	return this->m_onlyGray;
 }
 
 QString Picture::getPath(){

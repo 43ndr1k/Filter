@@ -44,6 +44,10 @@ private:
 	int** m_grayData;
 	QString m_path;
 
+	//Funktionen
+	char* temp(FILE* datei);
+	char* readSymbol(FILE* datei);
+
 };
 
 #endif// PICTURE_H
