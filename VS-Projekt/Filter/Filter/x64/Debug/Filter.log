@@ -1,22 +1,21 @@
-﻿Der Buildvorgang wurde am 02.09.2015 22:43:39 gestartet.
-     1>Projekt "D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\Filter\Filter.vcxproj" auf Knoten "2", Build Ziel(e).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(935,5): warning MSB8027: Two or more files with the name of moc_gui.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are GeneratedFiles\Debug\moc_gui.cpp, GeneratedFiles\Release\moc_gui.cpp.
+﻿Der Buildvorgang wurde am 03.09.2015 15:37:53 gestartet.
+     1>Projekt "C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\Filter\Filter.vcxproj" auf Knoten "2", Build Ziel(e).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include /I.\GeneratedFiles\Debug /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtCore /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtGui /IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include\QtWidgets /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt picture.cpp
-         picture.cpp
-     1>d:\meine daten\dropbox\meine dropbox\studium\semester 4\assembler\projekt\vs-projekt\filter\filter\picture.cpp(293): warning C4700: Die nicht initialisierte lokale Variable "grayData" wurde verwendet.
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /IC:\qt\5.5\msvc2013_64\include /I.\GeneratedFiles\Debug /IC:\qt\5.5\msvc2013_64\include\QtCore /IC:\qt\5.5\msvc2013_64\include\QtGui /IC:\qt\5.5\msvc2013_64\include\QtWidgets /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt gauss.cpp
+         gauss.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\x64\Debug\\Filter.exe" /NOLOGO /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5Widgetsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\x64\Debug\Filter.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\x64\Debug\Filter.lib" /MACHINE:X64 x64\Debug\data.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\x64\Debug\\Filter.exe" /NOLOGO /LIBPATH:C:\qt\5.5\msvc2013_64\lib qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5Widgetsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\x64\Debug\Filter.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\x64\Debug\Filter.lib" /MACHINE:X64 x64\Debug\data.obj
          x64\Debug\filterASM.obj
+         x64\Debug\gauss.obj
          x64\Debug\moc_gui.obj
          x64\Debug\qrc_gui.obj
          x64\Debug\gui.obj
          x64\Debug\main.obj
          x64\Debug\options.obj
          x64\Debug\picture.obj
-         Filter.vcxproj -> D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\x64\Debug\Filter.exe
-     1>Die Erstellung des Projekts "D:\Meine Daten\Dropbox\Meine Dropbox\Studium\Semester 4\Assembler\Projekt\VS-Projekt\Filter\Filter\Filter.vcxproj" ist abgeschlossen, Build Ziel(e).
+         Filter.vcxproj -> C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\x64\Debug\Filter.exe
+     1>Die Erstellung des Projekts "C:\Users\Hendrik\ownCloud\Documents\Studium\Semester4\Assembler\Projekt\Filter\VS-Projekt\Filter\Filter\Filter.vcxproj" ist abgeschlossen, Build Ziel(e).
 
 Build erfolgreich.
 
-Verstrichene Zeit 00:00:03.04
+Verstrichene Zeit 00:00:01.10
