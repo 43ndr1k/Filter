@@ -1,39 +1,29 @@
 #include "picture.h"
+#include <fileIO.h>
+#include <stdlib.h>
 
-Picture::Picture(int height,int width){
+Picture::Picture(int width, int height){
+	//Größe des Bildes speichern
 	this->m_width = width;
 	this->m_height = height;
 
 	//Speicher für die Farbmatrix allokieren
-	this->m_colorData = (int***) malloc(3*sizeof(int**));
-	for (int c = 0; c < 3; c++)
-	{
-		this->m_colorData[c] = (int**)malloc(height * sizeof(int*));
+	this->m_colorData = Picture::allocate3DMatrix(3, width, height);
 
-		for (int i = 0; i < height; i++)
-		{
-			this->m_colorData[c][i] = (int*)malloc(width * sizeof(int));
-		}
-	}
-	
 	//Speicher für die Grauwertmatrix allokieren
-	this->m_grayData = (int**)malloc(height*sizeof(int*));
-	for (int i = 0; i < width; i++)
-	{
-		this->m_grayData[i] = (int*)malloc(width * sizeof(int));
-	}
+	this->m_grayData = Picture::allocate2DMatrix(width, height);
 }
 
 Picture::~Picture(){
-	
+
 	int width = this->m_width;
 
 	//Farbmatrix freigeben
 	for (int c = 0; c < 3; c++)
 	{
-		for (int i = 0; i < this->m_height; i++)
+		for (int i = 0; i < width; i++)
 		{
-				free(this->m_colorData[c][i]);
+			free(this->m_colorData[c][i]);
 		}
 	}
 	free(this->m_colorData[0]);
@@ -46,49 +36,59 @@ Picture::~Picture(){
 	{
 		free(m_grayData[i]);
 	}
-	free(m_colorData);
+	free(m_grayData);
 }
 
-bool Picture::readPic(QString path){
+Picture Picture::readPic(QString path){
+	//m_image = QImage(path);
+
+	//Variablen vorbereiten
+	int width = 0;
+	int height = 0;
+	int maxBright = 0;
+	bool onlyGray = false;
+
+
 	FILE* datei = fopen(path.toLocal8Bit().constData(), "r");
-	m_image = QImage(path);
 	if (datei == NULL){
-		return false;
+		//Fehlermeldung ergänzen
+		//return false;
 	}
 
 	int count = 0;
 	while (!(count > 3)){
-		char* temp = this->readSymbol(datei);
+		char* temp = FileIO::readSymbol(datei);
 
 		if (temp != NULL) {
 
 			switch (count) {
 			case 0:
 				//Typ
-				if (strcmp(temp,"P3")==0){
-					setOnlyGray(false);
+				if (strcmp(temp, "P3") == 0){
+					onlyGray = false;
 				}
 				else{
 					if (strcmp(temp, "P2") == 0){
-						setOnlyGray(true);
+						onlyGray = true;
 					}
 					else{
 						//Kein gültiges Format
-						return false;
+						//Fehlermeldung ergänzen
+						//return false;
 					}
 				}
 				break;
 			case 1:
 				//Breite
-				this->setWidth(atoi(temp));
+				width = atoi(temp);
 				break;
 			case 2:
 				//Höhe
-				this->setHeight(atoi(temp));
+				height = atoi(temp);
 				break;
 			case 3:
 				//Maximale Helligkeit
-				this->setMaxBright(atoi(temp));
+				maxBright = atoi(temp);
 				break;
 			}
 			count++;
@@ -96,87 +96,37 @@ bool Picture::readPic(QString path){
 		}
 		else {
 			//Ungültige Werte in Datei
-			return false;
+			//Fehlermeldung ergänzen
+			//return false;
 		}
 		free(temp);
 	}
-	
+
+	Picture pic(width, height);
+	pic.setOnlyGray(onlyGray);
+	pic.setMaxBright(maxBright);
+
 	int i, j;
 
-	for (i = 0; i < getHeight(); i++) {
-		for (j = 0; j < getWidth(); j++) {
-			if (!(isOnlyGray())) {
-				m_colorData[0][i][j] = atoi(this->temp(datei));
-				m_colorData[1][i][j] = atoi(this->temp(datei));
-				m_colorData[2][i][j] = atoi(this->temp(datei));
-				m_grayData[i][j] = (int)(0.299 * m_colorData[0][i][j] + 0.587 *m_colorData[1][i][j] + 0.114*m_colorData[2][i][j]);
+	for (i = 0; i < height - 1; i++) {
+		for (j = 0; j < width - 1; j++) {
+			if (!onlyGray) {
+				pic.m_colorData[0][i][j] = atoi(FileIO::temp(datei));
+				pic.m_colorData[1][i][j] = atoi(FileIO::temp(datei));
+				pic.m_colorData[2][i][j] = atoi(FileIO::temp(datei));
+				pic.m_grayData[i][j] = (int)(0.299 * pic.m_colorData[0][i][j] + 0.587 *pic.m_colorData[1][i][j] + 0.114*pic.m_colorData[2][i][j]);
 			}
 			else {
-				m_grayData[i][j] = atoi(this->temp(datei));
+				pic.m_grayData[i][j] = atoi(FileIO::temp(datei));
 			}
 		}
 	}
-
-	return true;
+	fclose(datei);
+	pic.setImage(QImage(path));
+	return pic;
 }
 
-//Liest und Speichert ein Symbol bis zum Leerzeichen
-char* Picture::readSymbol(FILE* datei){
-	// Temporärer String, der den eingelesenen
-	// String speichert und später an die richtige
-	// Variable kopiert.
-	char puffer[] = "";
-	char *str = (char*) malloc(strlen(puffer) + 1);
-	size_t len = 0;
 
-	//Wert auf 0 setzten
-	memset(str, 0, (sizeof(str)));
-
-	//Wort gueltig?
-	int gueltig = 0;
-
-
-
-	// Lesen von Zeichen für Zeichen
-	while (!feof(datei)) {
-		fread(puffer, sizeof(char), 1, datei);
-
-		if (puffer[0] == ' ' || puffer[0] == '\n' || puffer[0] == '\r' || puffer[0] == '\t') {
-			if (gueltig == 1) {
-				len = strlen(str);
-				str[len] = '\0';
-				return str;
-			}
-		}
-		else {
-			gueltig = 1;
-			strncat(str, puffer, sizeof(char));
-			str = (char*) realloc(str, strlen(puffer) + len + 1);
-		}
-
-	}
-	if (gueltig == 1) {
-		len = strlen(str);
-		str[len] = '\0';
-		return str;
-	}
-	else {
-
-	}
-	return NULL;
-}
-
-// Speichert das aktuelle Wort zwischen und prüft ob das Wort Null ist
-char* Picture::temp(FILE* datei) {
-	char* temp = readSymbol(datei);
-	if (temp != NULL) {
-		return temp;
-	}
-	else {
-		//Unlesbares Zeichen
-	}
-	return NULL;
-}
 
 
 //Getter und Setter
@@ -277,13 +227,8 @@ int*** Picture::getColorData(){
 }
 
 int** Picture::getGrayData(){
-	int** grayData;
 	//Speicher für neue Grauwertmatrix allokieren
-	this->m_grayData = (int**)malloc(this->m_height*sizeof(int*));
-	for (int i = 0; i < this->m_width; i++)
-	{
-		this->m_grayData[i] = (int*)malloc(this->m_width * sizeof(int));
-	}
+	int** grayData = Picture::allocate2DMatrix(m_width, m_height);
 
 	//Daten kopieren
 	for (int i = 0; i < this->m_height; i++)
@@ -298,4 +243,32 @@ int** Picture::getGrayData(){
 
 QImage Picture::getImage(){
 	return this->m_image;
+}
+
+//Funktion zum allokieren von Speicher einer 3D Matrix
+//z = Ebenen , x = X-Ausdehnung, y = Y-Ausdehnung
+int*** Picture::allocate3DMatrix(int z, int x, int y){
+	int *** matrix = (int***)malloc(z * sizeof(int**));
+
+	for (int c = 0; c < z; c++)
+	{
+		matrix[c] = (int**)malloc(x * sizeof(int*));
+
+		for (int i = 0; i < x; i++)
+		{
+			matrix[c][i] = (int*)malloc(y * sizeof(int));
+		}
+	}
+	return matrix;
+}
+
+//Funktion zum allkoieren von Speicher einer 2D Matrix
+//x = X-Ausdehnung, y = Y-Ausdehnung
+int** Picture::allocate2DMatrix(int x, int y){
+	int** matrix = (int**)malloc(x*sizeof(int*));
+	for (int i = 0; i < x; i++)
+	{
+		matrix[i] = (int*)malloc(y * sizeof(int));
+	}
+	return matrix;
 }

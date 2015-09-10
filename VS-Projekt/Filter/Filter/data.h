@@ -1,6 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include "picture.h"
 
 class Data
 {
@@ -9,7 +10,15 @@ public:
 	Data();		//Konstruktor
 	~Data();	//Destruktor
 
+	Picture getPic();
+	QImage getImage();
+
+	void setPic(Picture pic);
+	void readPic(QString path);
+
+
 private:
+	Picture* Pic;
 
 };
 

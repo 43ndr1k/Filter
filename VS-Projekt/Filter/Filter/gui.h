@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_gui.h"
+#include "data.h"
 
 class GUI : public QMainWindow
 {
@@ -14,6 +15,7 @@ public:
 
 private:
 	Ui::GUIClass ui;
+	Data myData;
 
 	public slots:
 	void loadPic();

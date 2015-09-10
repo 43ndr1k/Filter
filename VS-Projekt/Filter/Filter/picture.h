@@ -11,7 +11,7 @@ public:
 	~Picture();	//Destruktor
 
 	//Funktionen
-	bool readPic(QString path);
+	Picture readPic(QString path);
 
 	//Getter
 	int getHeight();
@@ -45,8 +45,8 @@ private:
 	QString m_path;
 
 	//Funktionen
-	char* temp(FILE* datei);
-	char* readSymbol(FILE* datei);
+	int*** allocate3DMatrix(int x, int y, int z);
+	int** allocate2DMatrix(int x, int y);
 
 };
 
