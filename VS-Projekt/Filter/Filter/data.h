@@ -18,7 +18,7 @@ public:
 
 
 private:
-	Picture* Pic;
+	Picture pic;
 
 };
 

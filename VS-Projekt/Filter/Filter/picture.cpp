@@ -1,53 +1,35 @@
 #include "picture.h"
-#include <fileIO.h>
-#include <stdlib.h>
+#include "ArrayFct.h"
+#include "fileIO.h"
+#include "string.h"
 
-Picture::Picture(int width, int height){
+//Standartkonstruktor
+Picture::Picture(){
+
+}
+
+//Kompletter Konstruktor
+Picture::Picture(int width, int height, int maxBright, bool onlyGray, int*** colorData, int** grayData, QString path, QImage image){
 	//Größe des Bildes speichern
-	this->m_width = width;
-	this->m_height = height;
+	m_width = width;
+	m_height = height;
 
-	//Speicher für die Farbmatrix allokieren
-	this->m_colorData = Picture::allocate3DMatrix(3, width, height);
+	//Eigenschaften speichern
+	m_maxBright = maxBright;
+	m_onlyGray = onlyGray;
 
-	//Speicher für die Grauwertmatrix allokieren
-	this->m_grayData = Picture::allocate2DMatrix(width, height);
+	//Umfangreichere Eigenschaften speichern
+	m_path = QString(path);
+	m_image = QImage(image);
+
+	//Matrixen einspeichern
+	m_colorData = ArrayFct::copy3DMatrix(colorData, 3, width, height);
+	m_grayData = ArrayFct::copy2DMatrix(grayData, width, height);
 }
 
-Picture::~Picture(){
-
-	int width = this->m_width;
-
-	//Farbmatrix freigeben
-	for (int c = 0; c < 3; c++)
-	{
-		for (int i = 0; i < width; i++)
-		{
-			free(this->m_colorData[c][i]);
-		}
-	}
-	free(this->m_colorData[0]);
-	free(this->m_colorData[1]);
-	free(this->m_colorData[2]);
-	free(this->m_colorData);
-
-	//Speicher für Grauwertmatrix freigeben
-	for (int i = 0; i < width; i++)
-	{
-		free(m_grayData[i]);
-	}
-	free(m_grayData);
-}
-
-Picture Picture::readPic(QString path){
-	//m_image = QImage(path);
-
-	//Variablen vorbereiten
-	int width = 0;
-	int height = 0;
-	int maxBright = 0;
-	bool onlyGray = false;
-
+//Konstruktor mit Pfadangabe
+Picture::Picture(QString path){
+	m_path = QString(path);
 
 	FILE* datei = fopen(path.toLocal8Bit().constData(), "r");
 	if (datei == NULL){
@@ -65,11 +47,11 @@ Picture Picture::readPic(QString path){
 			case 0:
 				//Typ
 				if (strcmp(temp, "P3") == 0){
-					onlyGray = false;
+					m_onlyGray = false;
 				}
 				else{
 					if (strcmp(temp, "P2") == 0){
-						onlyGray = true;
+						m_onlyGray = true;
 					}
 					else{
 						//Kein gültiges Format
@@ -80,15 +62,15 @@ Picture Picture::readPic(QString path){
 				break;
 			case 1:
 				//Breite
-				width = atoi(temp);
+				m_width = atoi(temp);
 				break;
 			case 2:
 				//Höhe
-				height = atoi(temp);
+				m_height = atoi(temp);
 				break;
 			case 3:
 				//Maximale Helligkeit
-				maxBright = atoi(temp);
+				m_maxBright = atoi(temp);
 				break;
 			}
 			count++;
@@ -102,173 +84,127 @@ Picture Picture::readPic(QString path){
 		free(temp);
 	}
 
-	Picture pic(width, height);
-	pic.setOnlyGray(onlyGray);
-	pic.setMaxBright(maxBright);
+	m_colorData = ArrayFct::allocate3DMatrix(3, m_width, m_height);
+	m_grayData = ArrayFct::allocate2DMatrix(m_width, m_height);
 
-	int i, j;
-
-	for (i = 0; i < height - 1; i++) {
-		for (j = 0; j < width - 1; j++) {
-			if (!onlyGray) {
-				pic.m_colorData[0][i][j] = atoi(FileIO::temp(datei));
-				pic.m_colorData[1][i][j] = atoi(FileIO::temp(datei));
-				pic.m_colorData[2][i][j] = atoi(FileIO::temp(datei));
-				pic.m_grayData[i][j] = (int)(0.299 * pic.m_colorData[0][i][j] + 0.587 *pic.m_colorData[1][i][j] + 0.114*pic.m_colorData[2][i][j]);
+	for (int xz = 0; xz < m_width; xz++) {
+		for (int yz = 0; yz < m_height; yz++) {
+			if (!m_onlyGray) {
+				m_colorData[0][xz][yz] = atoi(FileIO::temp(datei));
+				m_colorData[1][xz][yz] = atoi(FileIO::temp(datei));
+				m_colorData[2][xz][yz] = atoi(FileIO::temp(datei));
+				m_grayData[xz][yz] = 0.299 * m_colorData[0][xz][yz] + 0.587 *m_colorData[1][xz][yz] + 0.114*m_colorData[2][xz][yz];
 			}
 			else {
-				pic.m_grayData[i][j] = atoi(FileIO::temp(datei));
+				m_grayData[xz][yz] = atoi(FileIO::temp(datei));
 			}
 		}
 	}
 	fclose(datei);
-	pic.setImage(QImage(path));
-	return pic;
+	m_image = QImage(path);
 }
 
+//Kopierkonstruktor
+Picture::Picture(const Picture& rhs){
+	m_width = rhs.m_width;
+	m_height = rhs.m_height;
+	m_maxBright = rhs.m_maxBright;
+	m_onlyGray = rhs.m_onlyGray;
+	m_image = QImage(rhs.m_image);
+	m_path = QString(rhs.m_path);
 
+	//Kopieren der Farbmatrix
+	m_colorData = ArrayFct::copy3DMatrix(rhs.m_colorData, 3, m_width, m_height);
 
+	//Kopieren der Grauwertmatrix
+	m_grayData = ArrayFct::copy2DMatrix(rhs.m_grayData, m_width, m_height);
+}
 
-//Getter und Setter
+//Destruktor
+Picture::~Picture(){
+	//Farbmatrix freigeben
+	ArrayFct::free3DMatrix(m_colorData);
 
+	//Speicher für Grauwertmatrix freigeben
+	ArrayFct::free2DMatrix(m_grayData);
+}
+
+//Setzt die Höhe des Bildes
 void Picture::setHeight(int height){
-	this->m_height = height;
+	m_height = height;
 }
 
+//Setzt die Breite des Bildes
 void Picture::setWidth(int width){
-	this->m_width = width;
+	m_width = width;
 }
 
+//Setzt die maximale Helligkeit im Bild
 void Picture::setMaxBright(int maxBright){
-	this->m_maxBright = maxBright;
+	m_maxBright = maxBright;
 }
 
+//Setzt das Flag ob Grauwertbild
 void Picture::setOnlyGray(bool onlyGray){
-	this->m_onlyGray = onlyGray;
+	m_onlyGray = onlyGray;
 }
 
+//Setzt den Pfad des Bildes
 void Picture::setPath(QString path){
-	this->m_path = path;
+	m_path = QString (path);
 }
 
-void Picture::setColorData(int*** colorData){
-	for (int c = 0; c < 3; c++)
-	{
-		for (int i = 0; i < this->m_height; i++)
-		{
-			for (int j = 0; j < this->m_width; j++)
-			{
-				colorData[c][i][j] = this->m_colorData[c][i][j]; //Farbe, Höhe, Weite
-			}
-		}
-	}
-}
-
-void Picture::setGrayData(int** grayData){
-	for (int i = 0; i < this->m_height; i++)
-	{
-		for (int j = 0; j < this->m_width; j++)
-		{
-			grayData[i][j] = this->m_grayData[i][j]; // Höhe, Weite
-		}
-	}
-}
-
+//Setzt das Anzeigebild
 void Picture::setImage(QImage image){
-	this->m_image = image;
+	this->m_image = QImage(image);
 }
 
+//Setzt die Farbmatrix des Bildes
+void Picture::setColorData(int*** colorData){
+	m_colorData = ArrayFct::copy3DMatrix(colorData, 3, m_width, m_height);
+}
+
+//Setzt die Graumatrix des Bildes
+void Picture::setGrayData(int** grayData){
+	m_grayData = ArrayFct::copy2DMatrix(grayData, m_width, m_height);
+}
+
+//Gibt die Höhe des Bildes
 int Picture::getHeight(){
-	return this->m_height;
+	return m_height;
 }
 
+//Gibt die Breite des Bildes
 int Picture::getWidth(){
-	return this->m_width;
+	return m_width;
 }
 
+//Gibt die Maximale Helligkeit des Bildes
 int Picture::getMaxBright(){
-	return this->m_maxBright;
+	return m_maxBright;
 }
 
+//Zeigt ob Grauwertbild
 bool Picture::isOnlyGray(){
-	return this->m_onlyGray;
+	return m_onlyGray;
 }
 
+//Gibt den Pfad des Bildes
 QString Picture::getPath(){
-	return this->m_path;
+	return QString(m_path);
 }
 
-int*** Picture::getColorData(){
-	int*** colorData;
-	//Speicher für neue Farbmatrix allokieren
-	colorData = (int***)malloc(3 * sizeof(int**));
-	for (int c = 0; c < 3; c++)
-	{
-		colorData[c] = (int**)malloc(this->m_height * sizeof(int*));
-
-		for (int i = 0; i < this->m_height; i++)
-		{
-			colorData[c][i] = (int*)malloc(this->m_width * sizeof(int));
-		}
-	}
-
-	//Daten kopieren
-	for (int c = 0; c < 3; c++)
-	{
-		for (int i = 0; i < this->m_height; i++)
-		{
-			for (int j = 0; j < this->m_width; j++)
-			{
-				colorData[c][i][j] = this->m_colorData[c][i][j]; //Farbe, Höhe, Weite
-			}
-		}
-	}
-	return colorData;
-}
-
-int** Picture::getGrayData(){
-	//Speicher für neue Grauwertmatrix allokieren
-	int** grayData = Picture::allocate2DMatrix(m_width, m_height);
-
-	//Daten kopieren
-	for (int i = 0; i < this->m_height; i++)
-	{
-		for (int j = 0; j < this->m_width; j++)
-		{
-			grayData[i][j] = this->m_grayData[i][j]; // Höhe, Weite
-		}
-	}
-	return grayData;
-}
-
+//Gibt das Anzeigebild
 QImage Picture::getImage(){
-	return this->m_image;
+	return QImage(m_image);
 }
 
-//Funktion zum allokieren von Speicher einer 3D Matrix
-//z = Ebenen , x = X-Ausdehnung, y = Y-Ausdehnung
-int*** Picture::allocate3DMatrix(int z, int x, int y){
-	int *** matrix = (int***)malloc(z * sizeof(int**));
-
-	for (int c = 0; c < z; c++)
-	{
-		matrix[c] = (int**)malloc(x * sizeof(int*));
-
-		for (int i = 0; i < x; i++)
-		{
-			matrix[c][i] = (int*)malloc(y * sizeof(int));
-		}
-	}
-	return matrix;
+//Gibt die Farbmatrix
+int*** Picture::getColorData(){
+	return ArrayFct::copy3DMatrix(m_colorData, 3, m_width, m_height);;
 }
 
-//Funktion zum allkoieren von Speicher einer 2D Matrix
-//x = X-Ausdehnung, y = Y-Ausdehnung
-int** Picture::allocate2DMatrix(int x, int y){
-	int** matrix = (int**)malloc(x*sizeof(int*));
-	for (int i = 0; i < x; i++)
-	{
-		matrix[i] = (int*)malloc(y * sizeof(int));
-	}
-	return matrix;
+//Gibt die Grauwertmatrix
+int** Picture::getGrayData(){
+	return ArrayFct::copy2DMatrix(m_grayData, m_width, m_height);;
 }

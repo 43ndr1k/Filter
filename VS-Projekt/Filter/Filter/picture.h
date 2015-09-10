@@ -7,11 +7,19 @@ class Picture
 {
 
 public:
-	Picture(int width, int height);	//Konstruktor
-	~Picture();	//Destruktor
+	//Standart Konstruktor
+	Picture();
+	//Kompletter Konstruktor
+	Picture(int width, int height, int maxBright, bool onlyGray, int*** colorData, int** grayData, QString path, QImage image);
+	//Konstruktor mit Pfadangabe
+	Picture(QString path);
+	//Kopierkonstruktor
+	Picture(const Picture& rhs);
+	//Destruktor
+	~Picture();
 
 	//Funktionen
-	Picture readPic(QString path);
+	/*Picture readPic(QString path);*/
 
 	//Getter
 	int getHeight();
@@ -40,13 +48,9 @@ private:
 	int m_maxBright;
 	bool m_onlyGray;
 	QImage m_image;
-	int*** m_colorData; //R , G , B
+	int*** m_colorData;
 	int** m_grayData;
 	QString m_path;
-
-	//Funktionen
-	int*** allocate3DMatrix(int x, int y, int z);
-	int** allocate2DMatrix(int x, int y);
 
 };
 
