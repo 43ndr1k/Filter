@@ -133,6 +133,7 @@ public:
         retranslateUi(GUIClass);
         QObject::connect(actionClose, SIGNAL(triggered()), GUIClass, SLOT(close()));
         QObject::connect(actionPicLoad, SIGNAL(triggered()), GUIClass, SLOT(loadPic()));
+        QObject::connect(actionPicSave, SIGNAL(triggered()), GUIClass, SLOT(savePic()));
 
         QMetaObject::connectSlotsByName(GUIClass);
     } // setupUi

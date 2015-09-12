@@ -19,6 +19,7 @@ private:
 
 	public slots:
 	void loadPic();
+	void savePic();
 };
 
 #endif // GUI_H

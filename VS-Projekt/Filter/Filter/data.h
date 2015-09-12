@@ -15,7 +15,7 @@ public:
 
 	void setPic(Picture pic);
 	void readPic(QString path);
-
+	void savePic(QString savePath);
 
 private:
 	Picture pic;

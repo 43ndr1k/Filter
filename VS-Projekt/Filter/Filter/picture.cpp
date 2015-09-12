@@ -87,8 +87,8 @@ Picture::Picture(QString path){
 	m_colorData = ArrayFct::allocate3DMatrix(3, m_width, m_height);
 	m_grayData = ArrayFct::allocate2DMatrix(m_width, m_height);
 
-	for (int xz = 0; xz < m_width; xz++) {
-		for (int yz = 0; yz < m_height; yz++) {
+	for (int yz = 0; yz < m_height; yz++) {
+		for (int xz = 0; xz < m_width; xz++) {
 			if (!m_onlyGray) {
 				m_colorData[0][xz][yz] = atoi(FileIO::temp(datei));
 				m_colorData[1][xz][yz] = atoi(FileIO::temp(datei));

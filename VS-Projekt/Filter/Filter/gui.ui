@@ -197,8 +197,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPicSave</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>savePic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadPic()</slot>
+  <slot>savePic()</slot>
  </slots>
 </ui>

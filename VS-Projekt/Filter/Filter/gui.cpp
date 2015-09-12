@@ -15,7 +15,11 @@ GUI::~GUI()
 }
 
 void GUI::loadPic(){
-	this->myData.readPic(QFileDialog::getOpenFileName());
+	myData.readPic(QFileDialog::getOpenFileName(this, tr("Bild laden"), "" ,tr("Bilder (*.ppm)")));
 
 	ui.picture->setPixmap(QPixmap::fromImage(this->myData.getImage()));
+}
+
+void GUI::savePic(){
+	myData.savePic(QFileDialog::getSaveFileName(this, tr("Bild speichern"), myData.getPic().getPath() ,tr("Bilder (*.ppm)")));
 }
