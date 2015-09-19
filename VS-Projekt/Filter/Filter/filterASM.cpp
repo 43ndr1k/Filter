@@ -1,9 +1,6 @@
 #include "filterASM.h"
 
-FilterASM::FilterASM(){
-
-}
-
-FilterASM::~FilterASM(){
-
-}
+//Schwellenwertfilter
+//void FilterASM::threshold(int** grayData, int width, int height, int limit, int max, int min){
+//	
+//}

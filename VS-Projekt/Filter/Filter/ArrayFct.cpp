@@ -25,26 +25,20 @@ int** ArrayFct::allocate2DMatrix(int x, int y){
 }
 
 //Funktion zum freigeben von Speicher einer 3D Matrix
-void ArrayFct::free3DMatrix(int*** matrix){
-	int size = sizeof(matrix[0]) / sizeof(int**);
-
-	for (int c = 0; c < size; c++)
+void ArrayFct::free3DMatrix(int*** matrix, int z, int x){
+	for (int c = 0; c < z; c++)
 	{
-		free2DMatrix(matrix[c]);
-		size = sizeof(matrix[c + 1]) / sizeof(int**);
+		free2DMatrix(matrix[c], x);
 	}
 
 	free(matrix);
 }
 
 //Funktion zum freigeben von Speicher einer 2D Matrix
-void ArrayFct::free2DMatrix(int** matrix){
-	int size = sizeof(matrix[0]) / sizeof(int);
-
-	for (int i = 0; i < size; i++)
+void ArrayFct::free2DMatrix(int** matrix, int x){
+	for (int i = 0; i < x; i++)
 	{
 		free(matrix[i]);
-		size = sizeof(matrix[i + 1]) / sizeof(int);
 	}
 	free(matrix);
 }

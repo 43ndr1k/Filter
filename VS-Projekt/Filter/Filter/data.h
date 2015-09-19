@@ -7,18 +7,24 @@ class Data
 {
 
 public:
-	Data();		//Konstruktor
-	~Data();	//Destruktor
+	static Data& getInstance();
 
 	Picture getPic();
+	Picture getLastPic();
 	QImage getImage();
 
 	void setPic(Picture pic);
 	void readPic(QString path);
+	void readOnly(QString path);
 	void savePic(QString savePath);
+	void copyPic(Picture* pic, Picture toCopy);
 
 private:
-	Picture pic;
+	Picture newPic;
+	Picture oldPic;
+
+	Data();
+	Data(const Data&);
 
 };
 

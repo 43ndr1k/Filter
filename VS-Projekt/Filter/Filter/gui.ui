@@ -73,15 +73,10 @@
     <property name="title">
      <string>Filter</string>
     </property>
-    <widget class="QMenu" name="menuMittelwertfilter">
-     <property name="title">
-      <string>Mittelwertfilter</string>
-     </property>
-     <addaction name="actionSchwarz_Wei"/>
-     <addaction name="actionRot_Gr_n_Blau"/>
-    </widget>
+    <addaction name="actionBlackWhite"/>
     <addaction name="actionInvertieren"/>
-    <addaction name="menuMittelwertfilter"/>
+    <addaction name="separator"/>
+    <addaction name="actionThreshold"/>
    </widget>
    <widget class="QMenu" name="menuEinstellungen">
     <property name="title">
@@ -159,6 +154,16 @@
     <string>Rot/GrÃ¼n/Blau</string>
    </property>
   </action>
+  <action name="actionBlackWhite">
+   <property name="text">
+    <string>Schwarz/Weiß</string>
+   </property>
+  </action>
+  <action name="actionThreshold">
+   <property name="text">
+    <string>Schwellenwertfilter</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -213,9 +218,60 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionBack</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>back()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionBlackWhite</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>makeGray()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionThreshold</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>threshold()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadPic()</slot>
   <slot>savePic()</slot>
+  <slot>back()</slot>
+  <slot>makeGray()</slot>
+  <slot>threshold()</slot>
  </slots>
 </ui>

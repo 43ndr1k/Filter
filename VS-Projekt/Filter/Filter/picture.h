@@ -37,8 +37,8 @@ public:
 	void setMaxBright(int maxBright);
 	void setOnlyGray(bool onlyGray);
 	void setPath(QString path);
-	void setColorData(int*** colorData);
-	void setGrayData(int** grayData);
+	void setColorData(int*** colorData, int x, int y);
+	void setGrayData(int** grayData, int x, int y);
 	void setImage(QImage image);
 
 

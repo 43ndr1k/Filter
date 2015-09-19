@@ -1,5 +1,4 @@
 #include "gui.h"
-#include "data.h"
 #include <QFileDialog>
 
 GUI::GUI(QWidget *parent)
@@ -7,6 +6,8 @@ GUI::GUI(QWidget *parent)
 {
 	//_CrtSetDbgFlag(_CrtSetDbgFlag(0) | _CRTDBG_CHECK_ALWAYS_DF);
 	ui.setupUi(this);
+	myData = &Data::getInstance();
+	opt = &Options::getInstance();
 }
 
 GUI::~GUI()
@@ -15,11 +16,26 @@ GUI::~GUI()
 }
 
 void GUI::loadPic(){
-	myData.readPic(QFileDialog::getOpenFileName(this, tr("Bild laden"), "" ,tr("Bilder (*.ppm)")));
+	myData->readPic(QFileDialog::getOpenFileName(this, tr("Bild laden"), "" ,tr("Bilder (*.ppm)")));
 
-	ui.picture->setPixmap(QPixmap::fromImage(this->myData.getImage()));
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
 }
 
 void GUI::savePic(){
-	myData.savePic(QFileDialog::getSaveFileName(this, tr("Bild speichern"), myData.getPic().getPath() ,tr("Bilder (*.ppm)")));
+	myData->savePic(QFileDialog::getSaveFileName(this, tr("Bild speichern"), myData->getPic().getPath() ,tr("Bilder (*.ppm)")));
+}
+
+void GUI::back(){
+	myData->setPic(myData->getLastPic());
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::makeGray(){
+	opt->makeGray();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::threshold(){
+	opt->threshold();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
 }

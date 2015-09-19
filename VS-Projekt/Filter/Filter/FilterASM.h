@@ -6,8 +6,7 @@ class FilterASM
 {
 
 public:
-	FilterASM();	//Konstruktor
-	~FilterASM();	//Destruktor
+	void threshold(int** grayData, int width, int height, int limit, int max, int min);
 
 private:
 

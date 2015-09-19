@@ -5,7 +5,10 @@
 
 //Standartkonstruktor
 Picture::Picture(){
-
+	m_width = 1;
+	m_height = 1;
+	m_colorData = ArrayFct::allocate3DMatrix(3,m_width, m_height);
+	m_grayData = ArrayFct::allocate2DMatrix(m_width, m_height);
 }
 
 //Kompletter Konstruktor
@@ -123,10 +126,10 @@ Picture::Picture(const Picture& rhs){
 //Destruktor
 Picture::~Picture(){
 	//Farbmatrix freigeben
-	ArrayFct::free3DMatrix(m_colorData);
+	ArrayFct::free3DMatrix(m_colorData,3,m_width);
 
 	//Speicher für Grauwertmatrix freigeben
-	ArrayFct::free2DMatrix(m_grayData);
+	ArrayFct::free2DMatrix(m_grayData,m_width);
 }
 
 //Setzt die Höhe des Bildes
@@ -160,13 +163,15 @@ void Picture::setImage(QImage image){
 }
 
 //Setzt die Farbmatrix des Bildes
-void Picture::setColorData(int*** colorData){
-	m_colorData = ArrayFct::copy3DMatrix(colorData, 3, m_width, m_height);
+void Picture::setColorData(int*** colorData, int x, int y){
+	ArrayFct::free3DMatrix(m_colorData, 3, m_width);
+	m_colorData = ArrayFct::copy3DMatrix(colorData, 3, x, y);
 }
 
 //Setzt die Graumatrix des Bildes
-void Picture::setGrayData(int** grayData){
-	m_grayData = ArrayFct::copy2DMatrix(grayData, m_width, m_height);
+void Picture::setGrayData(int** grayData, int x, int y){
+	ArrayFct::free2DMatrix(m_grayData, m_width);
+	m_grayData = ArrayFct::copy2DMatrix(grayData, x, y);
 }
 
 //Gibt die Höhe des Bildes

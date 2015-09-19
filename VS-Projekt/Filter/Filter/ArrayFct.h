@@ -15,10 +15,10 @@ public:
 	static int** allocate2DMatrix(int x, int y);
 
 	//Funktion zum freigeben von Speicher einer 3D Matrix
-	static void free3DMatrix(int*** matrix);
+	static void free3DMatrix(int*** matrix, int z, int x);
 
 	//Funktion zum freigeben von Speicher einer 2D Matrix
-	static void free2DMatrix(int** matrix);
+	static void free2DMatrix(int** matrix, int x);
 
 	//Funktion zum kopieren einer 3D Matrix
 	static int*** copy3DMatrix(int*** matrix, int z, int x, int y);

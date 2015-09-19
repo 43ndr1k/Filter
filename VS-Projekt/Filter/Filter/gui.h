@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_gui.h"
 #include "data.h"
+#include "options.h"
 
 class GUI : public QMainWindow
 {
@@ -15,11 +16,15 @@ public:
 
 private:
 	Ui::GUIClass ui;
-	Data myData;
+	Data* myData;
+	Options* opt;
 
 	public slots:
 	void loadPic();
 	void savePic();
+	void back();
+	void makeGray();
+	void threshold();
 };
 
 #endif // GUI_H
