@@ -49,7 +49,6 @@ outer:
 inner:
 	xor rbx,rbx
 	mov bx,max$[rbp]			;Schreibe Maximum auf rbx
-	mov r8d,[rdx]
 	cmp [rdx],r9d				;Vergleiche die Zelle mit der Grenze
 	cmovc bx,min$[rbp]			;Lade Minimum auf rbx
 	mov [rdx],bx				;Schreibe Inhalt auf Zelle
