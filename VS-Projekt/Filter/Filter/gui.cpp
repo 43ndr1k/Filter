@@ -49,3 +49,28 @@ void GUI::gauss(){
 	opt->gauss();
 	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
 }
+
+void GUI::hSobel(){
+	opt->hSobel();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::vSobel(){
+	opt->vSobel();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::qSobel(){
+	opt->qSobel();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::kSobel(){
+	opt->kSobel();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
+
+void GUI::thresholdSobel(){
+	opt->thresholdSobel();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}

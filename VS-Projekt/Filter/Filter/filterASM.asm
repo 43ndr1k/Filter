@@ -3,6 +3,304 @@
 PUBLIC	?threshold@FilterASM@@QEAAXPEAPEAHHHHHH@Z	; FilterASM::threshold
 PUBLIC	?meanValue@FilterASM@@QEAAXPEAPEAHHH0@Z		; FilterASM::meanValue
 PUBLIC	?gauss@FilterASM@@QEAAXPEAPEAHHH0@Z		; FilterASM::gauss
+PUBLIC	?easySobel@FilterASM@@QEAAXPEAPEAHHH0PEAH@Z	; FilterASM::easySobel
+PUBLIC	?Sobel@FilterASM@@QEAAXPEAPEAH0HH0@Z		; FilterASM::Sobel
+; Function compile flags: /Odtp
+_TEXT	SEGMENT
+this$ = 8
+matrix1$ = 16
+matrix2$ = 24
+width$ = 32
+height$ = 40
+erg$ = 48
+?Sobel@FilterASM@@QEAAXPEAPEAH0HH0@Z PROC		; FilterASM::Sobel
+; File d:\meine daten\dropbox\meine dropbox\studium\semester 4\assembler\projekt\vs-projekt\filter\filter\filterasm.cpp
+; Line 22
+	mov	DWORD PTR [rsp+32], r9d
+	mov	QWORD PTR [rsp+24], r8
+	mov	QWORD PTR [rsp+16], rdx
+	mov	QWORD PTR [rsp+8], rcx
+; Line 24
+
+;Sichern der Speicherstelle der Parameter
+	push rbp					;Sichert den Blockpointer
+	mov rbp, rsp				;Sichert die Stackpointeradresse (mit Blockpointer) 
+	add rbp, 8					;Rechnet den Blockpointer aus der Adresse
+
+;Hier die Register per Push  sichern
+;Register r9d,r8d,rdx,rcx müssen nicht gesichert werden, da sie der Parameterübergabe dienen
+	push rax
+	push rbx
+
+;Hier Code einfügen
+;Erste Spalte bearbeitet
+	;Initialisieren der Spaltenpointer
+	mov r8,matrix1$[rbp]
+	mov r9,matrix2$[rbp]
+	mov rdx,erg$[rbp]
+
+	mov cx,width$[rbp]
+
+m_outer:
+
+	mov ax, height$[rbp]
+
+	;Initialisierung der Zellenpointer
+	push rdx
+	push r8
+	push r9
+
+	mov rdx,[rdx]
+	mov r9, [r9]
+	mov rbx,[r9]
+	mov r8, [r8]
+
+m_inner:
+
+;Dieser Code wird auf alle Zellen im inneren angewendet	
+	
+	fild WORD PTR [r9]
+	fimul WORD PTR [r9]
+	fild WORD PTR [r8]
+	fimul WORD PTR [R8]
+	faddp
+	fsqrt
+	frndint
+	fistp WORD PTR [rdx]
+
+	add r9,4
+	add r8,4
+	add rdx,4
+
+	dec ax
+	jnz m_inner
+
+	pop r9
+	pop r8
+	pop rdx
+
+	
+
+	;Pointer auf nächste Spalte bewegen
+
+	add r8,8
+	add r9,8
+	add rdx,8
+
+	dec cx
+	jnz m_outer
+
+
+
+
+;Hier die Register per Pop wiederherstellen
+	pop rbx
+	pop rax
+
+
+;Setzen auf alten Stackpointer (Parameter)
+	sub rbp, 8					;Rechnet den Blockpointer wieder in die Adresse ein
+	mov rsp, rbp				;Stellt die Stackpointeradresse wieder her (mit Blockpointer)
+	pop rbp						;Lädt den Blockpointer
+
+
+
+	ret	0
+?Sobel@FilterASM@@QEAAXPEAPEAH0HH0@Z ENDP		; FilterASM::Sobel
+_TEXT	ENDS
+
+
+; Function compile flags: /Odtp
+_TEXT	SEGMENT
+this$ = 8
+grayData$ = 16
+width$ = 24
+height$ = 32
+erg$ = 40
+matrix$ = 48
+op$ = -8
+?easySobel@FilterASM@@QEAAXPEAPEAHHH0PEAH@Z PROC	; FilterASM::easySobel
+; File d:\meine daten\dropbox\meine dropbox\studium\semester 4\assembler\projekt\vs-projekt\filter\filter\filterasm.cpp
+; Line 18
+	mov	DWORD PTR [rsp+32], r9d
+	mov	DWORD PTR [rsp+24], r8d
+	mov	QWORD PTR [rsp+16], rdx
+	mov	QWORD PTR [rsp+8], rcx
+; Line 20
+		;Sichern der Speicherstelle der Parameter
+	push rbp					;Sichert den Blockpointer
+	mov rbp, rsp				;Sichert die Stackpointeradresse (mit Blockpointer) 
+	add rbp, 8					;Rechnet den Blockpointer aus der Adresse
+
+;Sichern von Speicherplatz für Variablen
+	sub rsp,-8					;Reserviert Speicherplatz auf Stack für Summe
+	xor cx,cx
+	mov	WORD PTR op$[rbp], cx
+
+;Hier die Register per Push  sichern
+;Register r9d,r8d,rdx,rcx müssen nicht gesichert werden, da sie der Parameterübergabe dienen
+	push rax
+	push rbx
+	push r10
+
+;Hier Code einfügen
+
+	;Erste Spalte bearbeitet
+	;Initialisieren der Spaltenpointer
+	mov rdx,grayData$[rbp]		;Laden der Spaltenpionter
+	mov r8,rdx					;r8 -> vorhergehende Spalte
+	add rdx,8
+	mov r9,rdx					;r9 -> aktuelle Spalte
+	add rdx,8
+	mov r10,rdx					;r10 -> nächste Spalte
+
+
+;Lade Ergebnismatrix
+	mov rdx,erg$[rbp]
+	add rdx,8
+
+	mov cx,width$[rbp]			;Zu bearbeitende Breite verkleinern
+	dec cx						;1.Spalte wird schwarz
+	dec cx						;Letzte Spalte wird schwarz
+
+m_outer:
+
+	mov ax, height$[rbp]		;Lädt die Höhe des Bildes
+	dec ax
+	dec ax
+
+	;Initialisierung der Zellenpointer
+	push rdx
+	push r8
+	push r9
+	push r10
+
+	mov rdx,[rdx]
+	mov r9, [r9]
+	mov r8, [r8]
+	mov r10, [r10]
+
+	add rdx,4
+	add r9,4
+	add r8,4
+	add r10,4
+
+m_inner:
+
+;Dieser Code wird auf alle Zellen im inneren angewendet	
+	
+	mov rbx, matrix$[rbp]
+	fild WORD PTR [rbx]
+	fimul WORD PTR [r8-4]
+	fild WORD PTR [rbx+4]
+	fimul WORD PTR [r8]
+	faddp
+	fild WORD PTR [rbx+8]
+	fimul WORD PTR [r8+4]
+	faddp
+	fild WORD PTR [rbx+12]
+	fimul WORD PTR [r9-4]
+	faddp
+	fild WORD PTR [rbx+16]
+	fimul WORD PTR [r9]
+	faddp
+	fild WORD PTR [rbx+20]
+	fimul WORD PTR [r9+4]
+	faddp
+	fild WORD PTR [rbx+24]
+	fimul WORD PTR [r10-4]
+	faddp
+	fild WORD PTR [rbx+28]
+	fimul WORD PTR [r10]
+	faddp
+	fild WORD PTR [rbx+32]
+	fimul WORD PTR [r10+4]
+	faddp
+	fabs
+	xor rbx,rbx
+	mov rbx,8
+	mov WORD PTR op$[rbp],bx
+	fidiv WORD PTR op$[rbp]
+	fistp WORD PTR [rdx]
+
+	add r9,4
+	add r8,4
+	add r10,4
+	add rdx,4
+
+	dec ax
+	jnz m_inner
+
+	;Letze Zeile Schwärzen
+	xor rbx,rbx
+	mov [rdx],bx
+	
+	pop r10
+	pop r9
+	pop r8
+	pop rdx
+
+	;Erste Zeile schwärzen
+	mov rax,[rdx]				;Lädt die Adresse der Zeile in der Spalte (Zelle)
+	;mov rdx,[rdx]
+	xor rbx,rbx
+	mov [rax],bx
+
+	
+
+	;Pointer auf nächste Spalte bewegen
+	mov r8,r9
+	mov r9,r10
+	add r10,8
+	add rdx,8
+
+	dec cx
+	jnz m_outer
+
+
+	;Die letzte Spalte schwärzen
+	mov ax, height$[rbp]		;Lädt die Höhe des Bildes
+	mov rdx,[rdx]				;Lädt die Adresse der Zeile in der Spalte (Zelle)
+m_last:
+	xor rbx,rbx
+	mov [rdx],bx				;Schreibe Inhalt auf Zelle
+	add rdx,4					;Nächste Zelle
+	dec ax						;Zelle Fertig
+	jnz m_last					;Falls noch Zellen in Spalte Sprung nach INNER
+	mov [rdx],bx				;Schreibe Inhalt auf Zelle
+
+	;Erste Spalte Schwarz setzen
+	mov ax, height$[rbp]		;Lädt die Höhe des Bildes
+	mov rdx , erg$[rbp]			;Laden der Spaltenpionter
+	mov rdx , [rdx]				;Lädt die Adresse der Zeile in der Spalte (Zelle)
+	xor rbx,rbx
+m_first:
+	mov [rdx],bx				;Schreibe Inhalt auf Zelle
+	add rdx,4					;Nächste Zelle
+	dec ax						;Zelle Fertig
+	jnz m_first					;Falls noch Zellen in Spalte Sprung nach INNER
+	mov [rdx],bx				;Schreibe Inhalt auf Zelle
+
+
+
+;Hier die Register per Pop wiederherstellen
+	pop r10
+	pop rbx
+	pop rax
+
+;Freigabe des Reservieten Speicherplatz
+	add rsp,8
+
+;Setzen auf alten Stackpointer (Parameter)
+	sub rbp, 8					;Rechnet den Blockpointer wieder in die Adresse ein
+	mov rsp, rbp				;Stellt die Stackpointeradresse wieder her (mit Blockpointer)
+	pop rbp						;Lädt den Blockpointer
+
+	ret	0
+?easySobel@FilterASM@@QEAAXPEAPEAHHH0PEAH@Z ENDP	; FilterASM::easySobel
+_TEXT	ENDS
+
+
 ; Function compile flags: /Odtp
 _TEXT	SEGMENT
 this$ = 8
@@ -19,8 +317,7 @@ op$ = -8
 	mov	QWORD PTR [rsp+16], rdx
 	mov	QWORD PTR [rsp+8], rcx
 ; Line 16
-
-;Sichern der Speicherstelle der Parameter
+	;Sichern der Speicherstelle der Parameter
 	push rbp					;Sichert den Blockpointer
 	mov rbp, rsp				;Sichert die Stackpointeradresse (mit Blockpointer) 
 	add rbp, 8					;Rechnet den Blockpointer aus der Adresse
@@ -198,9 +495,6 @@ m_first:
 _TEXT	ENDS
 
 
-
-
-
 ; Function compile flags: /Odtp
 _TEXT	SEGMENT
 this$ = 8
@@ -217,7 +511,7 @@ summe$ = -8
 	mov	QWORD PTR [rsp+16], rdx
 	mov	QWORD PTR [rsp+8], rcx
 ; Line 11
-;Ab hier begint selbst getippter Code
+	;Ab hier begint selbst getippter Code
 
 ;Sichern der Speicherstelle der Parameter
 	push rbp					;Sichert den Blockpointer
@@ -381,9 +675,6 @@ m_first:
 _TEXT	ENDS
 
 
-
-
-
 ; Function compile flags: /Odtp
 _TEXT	SEGMENT
 this$ = 8
@@ -401,7 +692,7 @@ min$ = 56
 	mov	QWORD PTR [rsp+16], rdx
 	mov	QWORD PTR [rsp+8], rcx
 ; Line 6
-;Ab hier begint selbst getippter Code
+	;Ab hier begint selbst getippter Code
 
 ;Sichern der Speicherstelle der Parameter
 	push rbp					;Sichert den Blockpointer
@@ -456,7 +747,6 @@ t_back:
 	mov rsp, rbp				;Stellt die Stackpointeradresse wieder her (mit Blockpointer)
 	pop rbp						;Lädt den Blockpointer
 
-	ret	0
 	ret	0
 ?threshold@FilterASM@@QEAAXPEAPEAHHHHHH@Z ENDP		; FilterASM::threshold
 _TEXT	ENDS

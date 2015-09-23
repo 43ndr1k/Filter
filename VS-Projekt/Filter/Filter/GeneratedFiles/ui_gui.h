@@ -41,6 +41,11 @@ public:
     QAction *actionThreshold;
     QAction *actionMeanValue;
     QAction *actionGauss;
+    QAction *actionHSobel;
+    QAction *actionVSobel;
+    QAction *actionQSobel;
+    QAction *actionthresholdSobel;
+    QAction *actionKSobel;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QLabel *picture;
@@ -48,6 +53,7 @@ public:
     QMenu *menuDatei;
     QMenu *menuBearbeiten;
     QMenu *menuFilter;
+    QMenu *menuSobel;
 
     void setupUi(QMainWindow *GUIClass)
     {
@@ -86,6 +92,16 @@ public:
         actionMeanValue->setObjectName(QStringLiteral("actionMeanValue"));
         actionGauss = new QAction(GUIClass);
         actionGauss->setObjectName(QStringLiteral("actionGauss"));
+        actionHSobel = new QAction(GUIClass);
+        actionHSobel->setObjectName(QStringLiteral("actionHSobel"));
+        actionVSobel = new QAction(GUIClass);
+        actionVSobel->setObjectName(QStringLiteral("actionVSobel"));
+        actionQSobel = new QAction(GUIClass);
+        actionQSobel->setObjectName(QStringLiteral("actionQSobel"));
+        actionthresholdSobel = new QAction(GUIClass);
+        actionthresholdSobel->setObjectName(QStringLiteral("actionthresholdSobel"));
+        actionKSobel = new QAction(GUIClass);
+        actionKSobel->setObjectName(QStringLiteral("actionKSobel"));
         centralWidget = new QWidget(GUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -114,6 +130,8 @@ public:
         menuBearbeiten->setObjectName(QStringLiteral("menuBearbeiten"));
         menuFilter = new QMenu(menuBar);
         menuFilter->setObjectName(QStringLiteral("menuFilter"));
+        menuSobel = new QMenu(menuFilter);
+        menuSobel->setObjectName(QStringLiteral("menuSobel"));
         GUIClass->setMenuBar(menuBar);
 
         menuBar->addAction(menuDatei->menuAction());
@@ -130,6 +148,15 @@ public:
         menuFilter->addAction(actionThreshold);
         menuFilter->addAction(actionMeanValue);
         menuFilter->addAction(actionGauss);
+        menuFilter->addSeparator();
+        menuFilter->addAction(menuSobel->menuAction());
+        menuSobel->addAction(actionKSobel);
+        menuSobel->addSeparator();
+        menuSobel->addAction(actionHSobel);
+        menuSobel->addAction(actionVSobel);
+        menuSobel->addAction(actionQSobel);
+        menuSobel->addSeparator();
+        menuSobel->addAction(actionthresholdSobel);
 
         retranslateUi(GUIClass);
         QObject::connect(actionClose, SIGNAL(triggered()), GUIClass, SLOT(close()));
@@ -140,6 +167,11 @@ public:
         QObject::connect(actionThreshold, SIGNAL(triggered()), GUIClass, SLOT(threshold()));
         QObject::connect(actionMeanValue, SIGNAL(triggered()), GUIClass, SLOT(meanValue()));
         QObject::connect(actionGauss, SIGNAL(triggered()), GUIClass, SLOT(gauss()));
+        QObject::connect(actionHSobel, SIGNAL(triggered()), GUIClass, SLOT(hSobel()));
+        QObject::connect(actionVSobel, SIGNAL(triggered()), GUIClass, SLOT(vSobel()));
+        QObject::connect(actionQSobel, SIGNAL(triggered()), GUIClass, SLOT(qSobel()));
+        QObject::connect(actionKSobel, SIGNAL(triggered()), GUIClass, SLOT(kSobel()));
+        QObject::connect(actionthresholdSobel, SIGNAL(triggered()), GUIClass, SLOT(thresholdSobel()));
 
         QMetaObject::connectSlotsByName(GUIClass);
     } // setupUi
@@ -161,10 +193,16 @@ public:
         actionThreshold->setText(QApplication::translate("GUIClass", "Schwellenwertfilter", 0));
         actionMeanValue->setText(QApplication::translate("GUIClass", "Mittelwertfilter", 0));
         actionGauss->setText(QApplication::translate("GUIClass", "Gaussfilter", 0));
+        actionHSobel->setText(QApplication::translate("GUIClass", "Horizontal", 0));
+        actionVSobel->setText(QApplication::translate("GUIClass", "Vertikal", 0));
+        actionQSobel->setText(QApplication::translate("GUIClass", "Quer", 0));
+        actionthresholdSobel->setText(QApplication::translate("GUIClass", "Angepasster Schwellenwert", 0));
+        actionKSobel->setText(QApplication::translate("GUIClass", "Komplett", 0));
         picture->setText(QString());
         menuDatei->setTitle(QApplication::translate("GUIClass", "Datei", 0));
         menuBearbeiten->setTitle(QApplication::translate("GUIClass", "Bearbeiten", 0));
         menuFilter->setTitle(QApplication::translate("GUIClass", "Filter", 0));
+        menuSobel->setTitle(QApplication::translate("GUIClass", "Sobel", 0));
     } // retranslateUi
 
 };

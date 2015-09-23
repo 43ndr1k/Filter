@@ -73,12 +73,26 @@
     <property name="title">
      <string>Filter</string>
     </property>
+    <widget class="QMenu" name="menuSobel">
+     <property name="title">
+      <string>Sobel</string>
+     </property>
+     <addaction name="actionKSobel"/>
+     <addaction name="separator"/>
+     <addaction name="actionHSobel"/>
+     <addaction name="actionVSobel"/>
+     <addaction name="actionQSobel"/>
+     <addaction name="separator"/>
+     <addaction name="actionthresholdSobel"/>
+    </widget>
     <addaction name="actionBlackWhite"/>
     <addaction name="actionInvertieren"/>
     <addaction name="separator"/>
     <addaction name="actionThreshold"/>
     <addaction name="actionMeanValue"/>
     <addaction name="actionGauss"/>
+    <addaction name="separator"/>
+    <addaction name="menuSobel"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -160,6 +174,31 @@
   <action name="actionGauss">
    <property name="text">
     <string>Gaussfilter</string>
+   </property>
+  </action>
+  <action name="actionHSobel">
+   <property name="text">
+    <string>Horizontal</string>
+   </property>
+  </action>
+  <action name="actionVSobel">
+   <property name="text">
+    <string>Vertikal</string>
+   </property>
+  </action>
+  <action name="actionQSobel">
+   <property name="text">
+    <string>Quer</string>
+   </property>
+  </action>
+  <action name="actionthresholdSobel">
+   <property name="text">
+    <string>Angepasster Schwellenwert</string>
+   </property>
+  </action>
+  <action name="actionKSobel">
+   <property name="text">
+    <string>Komplett</string>
    </property>
   </action>
  </widget>
@@ -296,6 +335,86 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionHSobel</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>hSobel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionVSobel</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>vSobel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQSobel</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>qSobel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionKSobel</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>kSobel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionthresholdSobel</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>thresholdSobel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadPic()</slot>
@@ -305,5 +424,10 @@
   <slot>threshold()</slot>
   <slot>meanValue()</slot>
   <slot>gauss()</slot>
+  <slot>hSobel()</slot>
+  <slot>vSobel()</slot>
+  <slot>qSobel()</slot>
+  <slot>kSobel()</slot>
+  <slot>thresholdSobel()</slot>
  </slots>
 </ui>

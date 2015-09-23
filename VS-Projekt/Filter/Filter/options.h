@@ -12,8 +12,13 @@ public:
 
 	void makeGray();
 	void threshold();
+	void thresholdSobel();
 	void meanValue();
 	void gauss();
+	void hSobel();
+	void vSobel();
+	void qSobel();
+	void kSobel();
 
 private:
 	Data* myData;

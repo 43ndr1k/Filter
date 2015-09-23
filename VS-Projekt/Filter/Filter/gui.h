@@ -27,6 +27,11 @@ private:
 	void threshold();
 	void meanValue();
 	void gauss();
+	void hSobel();
+	void vSobel();
+	void qSobel();
+	void kSobel();
+	void thresholdSobel();
 };
 
 #endif // GUI_H
