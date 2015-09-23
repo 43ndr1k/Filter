@@ -39,6 +39,7 @@ public:
     QAction *actionRot_Gr_n_Blau;
     QAction *actionBlackWhite;
     QAction *actionThreshold;
+    QAction *actionMeanValue;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QLabel *picture;
@@ -46,8 +47,6 @@ public:
     QMenu *menuDatei;
     QMenu *menuBearbeiten;
     QMenu *menuFilter;
-    QMenu *menuEinstellungen;
-    QMenu *menuMittelwertfilter_2;
 
     void setupUi(QMainWindow *GUIClass)
     {
@@ -82,6 +81,8 @@ public:
         actionBlackWhite->setObjectName(QStringLiteral("actionBlackWhite"));
         actionThreshold = new QAction(GUIClass);
         actionThreshold->setObjectName(QStringLiteral("actionThreshold"));
+        actionMeanValue = new QAction(GUIClass);
+        actionMeanValue->setObjectName(QStringLiteral("actionMeanValue"));
         centralWidget = new QWidget(GUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -110,16 +111,11 @@ public:
         menuBearbeiten->setObjectName(QStringLiteral("menuBearbeiten"));
         menuFilter = new QMenu(menuBar);
         menuFilter->setObjectName(QStringLiteral("menuFilter"));
-        menuEinstellungen = new QMenu(menuBar);
-        menuEinstellungen->setObjectName(QStringLiteral("menuEinstellungen"));
-        menuMittelwertfilter_2 = new QMenu(menuEinstellungen);
-        menuMittelwertfilter_2->setObjectName(QStringLiteral("menuMittelwertfilter_2"));
         GUIClass->setMenuBar(menuBar);
 
         menuBar->addAction(menuDatei->menuAction());
         menuBar->addAction(menuBearbeiten->menuAction());
         menuBar->addAction(menuFilter->menuAction());
-        menuBar->addAction(menuEinstellungen->menuAction());
         menuDatei->addAction(actionPicLoad);
         menuDatei->addAction(actionPicSave);
         menuDatei->addSeparator();
@@ -129,9 +125,7 @@ public:
         menuFilter->addAction(actionInvertieren);
         menuFilter->addSeparator();
         menuFilter->addAction(actionThreshold);
-        menuEinstellungen->addAction(menuMittelwertfilter_2->menuAction());
-        menuMittelwertfilter_2->addAction(actionG_e);
-        menuMittelwertfilter_2->addAction(actionAbweichung);
+        menuFilter->addAction(actionMeanValue);
 
         retranslateUi(GUIClass);
         QObject::connect(actionClose, SIGNAL(triggered()), GUIClass, SLOT(close()));
@@ -140,6 +134,7 @@ public:
         QObject::connect(actionBack, SIGNAL(triggered()), GUIClass, SLOT(back()));
         QObject::connect(actionBlackWhite, SIGNAL(triggered()), GUIClass, SLOT(makeGray()));
         QObject::connect(actionThreshold, SIGNAL(triggered()), GUIClass, SLOT(threshold()));
+        QObject::connect(actionMeanValue, SIGNAL(triggered()), GUIClass, SLOT(meanValue()));
 
         QMetaObject::connectSlotsByName(GUIClass);
     } // setupUi
@@ -159,12 +154,11 @@ public:
         actionRot_Gr_n_Blau->setText(QApplication::translate("GUIClass", "Rot/Gr\303\203\302\274n/Blau", 0));
         actionBlackWhite->setText(QApplication::translate("GUIClass", "Schwarz/Wei\303\237", 0));
         actionThreshold->setText(QApplication::translate("GUIClass", "Schwellenwertfilter", 0));
+        actionMeanValue->setText(QApplication::translate("GUIClass", "Mittelwertfilter", 0));
         picture->setText(QString());
         menuDatei->setTitle(QApplication::translate("GUIClass", "Datei", 0));
         menuBearbeiten->setTitle(QApplication::translate("GUIClass", "Bearbeiten", 0));
         menuFilter->setTitle(QApplication::translate("GUIClass", "Filter", 0));
-        menuEinstellungen->setTitle(QApplication::translate("GUIClass", "Einstellungen", 0));
-        menuMittelwertfilter_2->setTitle(QApplication::translate("GUIClass", "Mittelwertfilter", 0));
     } // retranslateUi
 
 };

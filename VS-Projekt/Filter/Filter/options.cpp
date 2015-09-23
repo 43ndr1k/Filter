@@ -1,4 +1,5 @@
 #include "options.h"
+#include "ArrayFct.h"
 
 Options& Options::getInstance(){
 	static Options instance;
@@ -25,6 +26,19 @@ void Options::threshold(){
 	int height = pic.getHeight();
 	filter->threshold(grayData, width, height, 50, pic.getMaxBright(), 0);
 	pic.setGrayData(grayData, width, height);
+	myData->setPic(pic);
+	saveResult();
+}
+
+void Options::meanValue(){
+	Picture pic = myData->getPic();
+	pic.setOnlyGray(true);
+	int** grayData = pic.getGrayData();
+	int width = pic.getWidth();
+	int height = pic.getHeight();
+	int** erg = ArrayFct::copy2DMatrix(grayData, width, height);
+	filter->meanValue(grayData, width, height, erg);
+	pic.setGrayData(erg, width, height);
 	myData->setPic(pic);
 	saveResult();
 }

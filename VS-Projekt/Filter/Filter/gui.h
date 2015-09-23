@@ -25,6 +25,7 @@ private:
 	void back();
 	void makeGray();
 	void threshold();
+	void meanValue();
 };
 
 #endif // GUI_H

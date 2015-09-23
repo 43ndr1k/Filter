@@ -77,24 +77,11 @@
     <addaction name="actionInvertieren"/>
     <addaction name="separator"/>
     <addaction name="actionThreshold"/>
-   </widget>
-   <widget class="QMenu" name="menuEinstellungen">
-    <property name="title">
-     <string>Einstellungen</string>
-    </property>
-    <widget class="QMenu" name="menuMittelwertfilter_2">
-     <property name="title">
-      <string>Mittelwertfilter</string>
-     </property>
-     <addaction name="actionG_e"/>
-     <addaction name="actionAbweichung"/>
-    </widget>
-    <addaction name="menuMittelwertfilter_2"/>
+    <addaction name="actionMeanValue"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
    <addaction name="menuFilter"/>
-   <addaction name="menuEinstellungen"/>
   </widget>
   <action name="actionPicLoad">
    <property name="text">
@@ -162,6 +149,11 @@
   <action name="actionThreshold">
    <property name="text">
     <string>Schwellenwertfilter</string>
+   </property>
+  </action>
+  <action name="actionMeanValue">
+   <property name="text">
+    <string>Mittelwertfilter</string>
    </property>
   </action>
  </widget>
@@ -266,6 +258,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionMeanValue</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>meanValue()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadPic()</slot>
@@ -273,5 +281,6 @@
   <slot>back()</slot>
   <slot>makeGray()</slot>
   <slot>threshold()</slot>
+  <slot>meanValue()</slot>
  </slots>
 </ui>

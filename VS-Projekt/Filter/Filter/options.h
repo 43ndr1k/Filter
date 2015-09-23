@@ -12,6 +12,7 @@ public:
 
 	void makeGray();
 	void threshold();
+	void meanValue();
 
 private:
 	Data* myData;

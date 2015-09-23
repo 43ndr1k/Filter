@@ -39,3 +39,8 @@ void GUI::threshold(){
 	opt->threshold();
 	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
 }
+
+void GUI::meanValue(){
+	opt->meanValue();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}
