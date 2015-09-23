@@ -43,6 +43,19 @@ void Options::meanValue(){
 	saveResult();
 }
 
+void Options::gauss(){
+	Picture pic = myData->getPic();
+	pic.setOnlyGray(true);
+	int** grayData = pic.getGrayData();
+	int width = pic.getWidth();
+	int height = pic.getHeight();
+	int** erg = ArrayFct::copy2DMatrix(grayData, width, height);
+	filter->gauss(grayData, width, height, erg);
+	pic.setGrayData(erg, width, height);
+	myData->setPic(pic);
+	saveResult();
+}
+
 void Options::saveResult(){
 	myData->savePic("temp.ppm");
 	myData->readOnly("temp.ppm");

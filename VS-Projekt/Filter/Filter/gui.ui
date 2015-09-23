@@ -78,6 +78,7 @@
     <addaction name="separator"/>
     <addaction name="actionThreshold"/>
     <addaction name="actionMeanValue"/>
+    <addaction name="actionGauss"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -154,6 +155,11 @@
   <action name="actionMeanValue">
    <property name="text">
     <string>Mittelwertfilter</string>
+   </property>
+  </action>
+  <action name="actionGauss">
+   <property name="text">
+    <string>Gaussfilter</string>
    </property>
   </action>
  </widget>
@@ -274,6 +280,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionGauss</sender>
+   <signal>triggered()</signal>
+   <receiver>GUIClass</receiver>
+   <slot>gauss()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadPic()</slot>
@@ -282,5 +304,6 @@
   <slot>makeGray()</slot>
   <slot>threshold()</slot>
   <slot>meanValue()</slot>
+  <slot>gauss()</slot>
  </slots>
 </ui>

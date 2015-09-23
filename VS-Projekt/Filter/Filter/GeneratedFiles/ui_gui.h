@@ -40,6 +40,7 @@ public:
     QAction *actionBlackWhite;
     QAction *actionThreshold;
     QAction *actionMeanValue;
+    QAction *actionGauss;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QLabel *picture;
@@ -83,6 +84,8 @@ public:
         actionThreshold->setObjectName(QStringLiteral("actionThreshold"));
         actionMeanValue = new QAction(GUIClass);
         actionMeanValue->setObjectName(QStringLiteral("actionMeanValue"));
+        actionGauss = new QAction(GUIClass);
+        actionGauss->setObjectName(QStringLiteral("actionGauss"));
         centralWidget = new QWidget(GUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -126,6 +129,7 @@ public:
         menuFilter->addSeparator();
         menuFilter->addAction(actionThreshold);
         menuFilter->addAction(actionMeanValue);
+        menuFilter->addAction(actionGauss);
 
         retranslateUi(GUIClass);
         QObject::connect(actionClose, SIGNAL(triggered()), GUIClass, SLOT(close()));
@@ -135,6 +139,7 @@ public:
         QObject::connect(actionBlackWhite, SIGNAL(triggered()), GUIClass, SLOT(makeGray()));
         QObject::connect(actionThreshold, SIGNAL(triggered()), GUIClass, SLOT(threshold()));
         QObject::connect(actionMeanValue, SIGNAL(triggered()), GUIClass, SLOT(meanValue()));
+        QObject::connect(actionGauss, SIGNAL(triggered()), GUIClass, SLOT(gauss()));
 
         QMetaObject::connectSlotsByName(GUIClass);
     } // setupUi
@@ -155,6 +160,7 @@ public:
         actionBlackWhite->setText(QApplication::translate("GUIClass", "Schwarz/Wei\303\237", 0));
         actionThreshold->setText(QApplication::translate("GUIClass", "Schwellenwertfilter", 0));
         actionMeanValue->setText(QApplication::translate("GUIClass", "Mittelwertfilter", 0));
+        actionGauss->setText(QApplication::translate("GUIClass", "Gaussfilter", 0));
         picture->setText(QString());
         menuDatei->setTitle(QApplication::translate("GUIClass", "Datei", 0));
         menuBearbeiten->setTitle(QApplication::translate("GUIClass", "Bearbeiten", 0));

@@ -13,6 +13,7 @@ public:
 	void makeGray();
 	void threshold();
 	void meanValue();
+	void gauss();
 
 private:
 	Data* myData;

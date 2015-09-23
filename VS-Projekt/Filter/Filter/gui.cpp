@@ -44,3 +44,8 @@ void GUI::meanValue(){
 	opt->meanValue();
 	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
 }
+
+void GUI::gauss(){
+	opt->gauss();
+	ui.picture->setPixmap(QPixmap::fromImage(myData->getImage()));
+}

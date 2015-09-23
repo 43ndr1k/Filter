@@ -9,3 +9,8 @@
 //void FilterASM::meanValue(int** grayData, int width, int height, int** erg){
 //
 //}
+//
+////Gaussfilter
+//void FilterASM::gauss(int** grayData, int width, int height, int** erg){
+//
+//}
